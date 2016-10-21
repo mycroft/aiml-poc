@@ -1,0 +1,66 @@
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>HELLO ALICE</pattern>
+        <template>Hello User!</template>
+    </category>
+
+    <category>
+        <pattern>My name is * and I'm * years old</pattern>
+        <template>
+            Ok, your name is <set name="user_name"><star/></set>. You are <set name="user_age"><star/></set>.
+        </template>
+    </category>
+
+    <category>
+        <pattern>My name is *</pattern>
+        <template>
+            Ok, your name is <set name="user_name"><star/></set>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>What is my name ?</pattern>
+        <template>
+            Your name is <get name="user_name" />
+        </template>
+    </category>
+
+    <category>
+        <pattern>My name is * and I am * years old</pattern>
+        <template>
+            Ok, your name is <set name="user_name"><star/></set> and you are <set name="user_age"><star/></set>.
+        </template>
+    </category>
+
+    <category>
+        <set name="topic">movies</set>
+        <pattern>let's talk about movies</pattern>
+        <template>
+            Ok ! Subject is now <set name="topic">movies</set>
+        </template>
+    </category>
+
+    <topic name="movies">
+        <category>
+            <pattern>blah ?</pattern>
+            <template>blah !</template>
+        </category>
+    </topic>
+
+    <category>
+        <pattern>*</pattern>
+        <template>
+            <random>
+                <li>1st random</li>
+                <li>2nd random</li>
+                <li>3rd random</li>
+            </random>
+            bla
+            <random>
+                <li>4st random</li>
+                <li>5nd random</li>
+                <li>6rd random</li>
+            </random>
+        </template>
+    </category>
+</aiml>

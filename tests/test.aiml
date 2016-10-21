@@ -1,0 +1,88 @@
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>Hi</pattern>
+        <template>Hi!</template>
+    </category>
+
+    <category>
+        <pattern>My name is * and I'm * years old</pattern>
+        <template>
+            <star/> / <star/>
+        </template>
+    </category>
+
+    <category>
+        <pattern>My name is *</pattern>
+        <template>
+            <star/>
+        </template>
+    </category>
+
+    <category>
+        <pattern>I'm * years old and my name is *</pattern>
+        <template>
+            <star index="2" /> / <star index="1" />
+        </template>
+    </category>
+
+    <category>
+        <pattern>Record 1 user *</pattern>
+        <template>
+            User <set name="user"><star /></set> recorded.
+        </template>
+    </category>
+
+    <category>
+        <pattern>Record 2 user * with val *</pattern>
+        <template>
+            Val <star index="2" /> recorded for user <set name="user"><star index="1" /></set>
+        </template>
+    </category>
+
+    <category>
+        <pattern>What is my name ?</pattern>
+        <template>
+            Your name is '<get name="user" />'.
+        </template>
+    </category>
+
+    <category>
+        <pattern>Test THAT</pattern>
+        <that>Repeat yourself</that>
+        <template>Nailed it</template>
+    </category>
+
+    <category>
+        <pattern>Test THAT</pattern>
+        <template>Repeat yourself</template>
+    </category>
+
+    <category>
+        <pattern>Test THINK 'My name is *'</pattern>
+        <template>
+            <think><set name="user"><star /></set></think>
+            Hello
+        </template>
+    </category>
+
+    <category>
+        <pattern>Test THINK 'What is my name ?'</pattern>
+        <template>
+            Your name is '<get name="user" />'.
+        </template>
+    </category>
+
+   <category>
+        <pattern>HOW ARE YOU FEELING TODAY</pattern>
+        <template>
+            <think><set name = "state">happy</set></think>
+            <condition name = "state" value = "happy">
+                I am happy!
+            </condition>
+            <condition name = "state" value = "sad">
+                I am sad!
+            </condition>
+        </template>
+   </category>
+
+</aiml>
