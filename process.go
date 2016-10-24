@@ -12,6 +12,9 @@ import (
 func (context *Context) Process(template string, matches []string) (string, bool) {
 	template = context.ReplaceStars(template, matches)
 	template = context.ProcessGet(template)
+	template = context.ProcessThat(template)
+	template = context.ProcessThatstar(template)
+	template = context.ProcessInput(template)
 	template = context.ProcessSet(template)
 
 	template = context.ProcessRandom(template)
@@ -67,6 +70,40 @@ func (context *Context) ReplaceStars(template string, matches []string) string {
 
 		replacement = strings.TrimSpace(replacement)
 		template = strings.Replace(template, match, fmt.Sprintf("%s", replacement), 1)
+	}
+}
+
+func (context *Context) ProcessThat(template string) string {
+	// thatStruct := struct {
+	// 	XMLName xml.Name `xml:"that"`
+	// 	Index   string   `xml:"index,attr"`
+	// }{}
+
+	for {
+		re := regexp.MustCompile("(?msU)<that[^a-z].*/>")
+		set_string := re.FindString(template)
+		if "" == set_string {
+			return template
+		}
+
+		template = strings.Replace(template, set_string, context.LastSent, 1)
+	}
+}
+
+func (context *Context) ProcessInput(template string) string {
+	// inputStruct := struct {
+	// 	XMLName xml.Name `xml:"input"`
+	// 	Index   string   `xml:"index,attr"`
+	// }{}
+
+	for {
+		re := regexp.MustCompile("(?msU)<input.*/>")
+		set_string := re.FindString(template)
+		if "" == set_string {
+			return template
+		}
+
+		template = strings.Replace(template, set_string, context.LastRecv, 1)
 	}
 }
 
@@ -219,5 +256,17 @@ func (context *Context) ProcessCondition(template string) string {
 			// Remove
 			template = strings.Replace(template, orig_string, "", 1)
 		}
+	}
+}
+
+func (context *Context) ProcessThatstar(template string) string {
+	for {
+		re := regexp.MustCompile("(?msU)<thatstar.*/>")
+		orig_string := re.FindString(template)
+		if "" == orig_string {
+			return template
+		}
+
+		template = strings.Replace(template, orig_string, context.ThatMatches[0], 1)
 	}
 }

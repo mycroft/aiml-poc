@@ -9,10 +9,12 @@ import (
 )
 
 type Context struct {
-	Memory   map[string]string
-	Topic    string
-	aimlRoot *AIMLRoot
-	LastSent string
+	Memory      map[string]string
+	Topic       string
+	aimlRoot    *AIMLRoot
+	LastRecv    string
+	LastSent    string
+	ThatMatches []string
 }
 
 func main() {

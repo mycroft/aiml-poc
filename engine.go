@@ -23,6 +23,8 @@ func makeRegexp(content string) *regexp.Regexp {
 
 func (context *Context) run(input string) (string, error) {
 	categories := context.aimlRoot.Categories
+	context.LastRecv = input
+	context.ThatMatches = nil
 
 	// Select current topic
 	if context.Topic != "" {
@@ -39,8 +41,17 @@ func (context *Context) run(input string) (string, error) {
 			category.Pattern.regexp = makeRegexp(category.Pattern.Content)
 		}
 
-		if category.That.Content != "" && category.That.Content != context.LastSent {
-			continue
+		if category.That.Content != "" {
+			// Check that category.That.Content matches context.LastSent.
+			// also, catch things if needed.
+			reg := makeRegexp(category.That.Content)
+
+			if false == reg.Match([]byte(context.LastSent)) {
+				continue
+			}
+
+			that_matches := reg.FindAllStringSubmatch(context.LastSent, -1)
+			context.ThatMatches = that_matches[0][1:]
 		}
 
 		is_matching := category.Pattern.regexp.Match([]byte(input))

@@ -232,3 +232,76 @@ func TestCondition(t *testing.T) {
 
 	RunTest(t, context, MatcherSamples)
 }
+
+func TestTemplateThat(t *testing.T) {
+	var context Context
+	context.aimlRoot, _ = LoadContext(t, "tests/test_template_that.aiml")
+	context.Memory = make(map[string]string)
+
+	MatcherSamples := []MatcherSample{
+		MatcherSample{
+			Input:  "Hello",
+			Output: "Hello. What's up ?",
+		},
+		MatcherSample{
+			Input:  "Repeat ?",
+			Output: "Hello. What's up ?",
+		},
+		MatcherSample{
+			Input:  "Bye",
+			Output: "Bye...",
+		},
+		MatcherSample{
+			Input:  "Repeat ?",
+			Output: "Bye...",
+		},
+	}
+
+	RunTest(t, context, MatcherSamples)
+}
+
+func TestInput(t *testing.T) {
+	var context Context
+	context.aimlRoot, _ = LoadContext(t, "tests/test_input.aiml")
+	context.Memory = make(map[string]string)
+
+	MatcherSamples := []MatcherSample{
+		MatcherSample{
+			Input:  "Hello",
+			Output: "You just said 'Hello'",
+		},
+		MatcherSample{
+			Input:  "Repeat ?",
+			Output: "You just said 'Repeat ?'",
+		},
+	}
+
+	RunTest(t, context, MatcherSamples)
+}
+
+func TestThatStar(t *testing.T) {
+	var context Context
+	context.aimlRoot, _ = LoadContext(t, "tests/test_thatstar.aiml")
+	context.Memory = make(map[string]string)
+
+	MatcherSamples := []MatcherSample{
+		MatcherSample{
+			Input:  "Hello",
+			Output: "What is your name ?",
+		},
+		MatcherSample{
+			Input:  "My name is IAMROBOT",
+			Output: "Hello IAMROBOT!",
+		},
+		MatcherSample{
+			Input:  "Well.... (1)",
+			Output: "IAMROBOT, how are you ?",
+		},
+		MatcherSample{
+			Input:  "Well.... (2)",
+			Output: "I forgot your name...",
+		},
+	}
+
+	RunTest(t, context, MatcherSamples)
+}
