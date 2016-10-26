@@ -305,3 +305,21 @@ func TestThatStar(t *testing.T) {
 
 	RunTest(t, context, MatcherSamples)
 }
+
+func TestBot(t *testing.T) {
+	context := InitContext()
+	context.aimlRoot, _ = LoadContext(t, "tests/test_bot.aiml")
+
+	MatcherSamples := []MatcherSample{
+		MatcherSample{
+			Input:  "Your name ?",
+			Output: "My name is StupidBot",
+		},
+		MatcherSample{
+			Input:  "Your age ?",
+			Output: "My age is #!%#",
+		},
+	}
+
+	RunTest(t, context, MatcherSamples)
+}

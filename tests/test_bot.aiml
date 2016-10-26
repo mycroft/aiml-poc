@@ -1,0 +1,11 @@
+<aiml version="1.0.1" encoding="UTF-8">
+    <category>
+        <pattern>Your name ?</pattern>
+        <template>My name is <bot name="name" /></template>
+    </category>
+
+    <category>
+        <pattern>Your age ?</pattern>
+        <template>My age is <bot name="age" /></template>
+    </category>
+</aiml>

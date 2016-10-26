@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"math/rand"
 	"regexp"
@@ -12,6 +13,7 @@ import (
 func (context *Context) Process(template string, matches []string) (string, bool) {
 	template = context.ReplaceStars(template, matches)
 	template = context.ProcessGet(template)
+	template = context.ProcessBot(template)
 	template = context.ProcessThat(template)
 	template = context.ProcessThatstar(template)
 	template = context.ProcessInput(template)
@@ -269,4 +271,45 @@ func (context *Context) ProcessThatstar(template string) string {
 
 		template = strings.Replace(template, orig_string, context.ThatMatches[0], 1)
 	}
+}
+
+func (context *Context) ProcessBot(template string) string {
+	botStruct := struct {
+		XMLName xml.Name `xml:"bot"`
+		Name    string   `xml:"name,attr"`
+	}{}
+
+	for {
+		orig_str, err := GrabPart(template, &botStruct, "(?msU)<bot .*/>")
+		if err != nil {
+			return template
+		}
+
+		var ok bool
+		replace_value := ""
+
+		if replace_value, ok = context.Bot[botStruct.Name]; !ok {
+			replace_value = "#!%#"
+		}
+
+		template = strings.Replace(template, orig_str, replace_value, 1)
+
+		return template
+	}
+}
+
+func GrabPart(template string, node interface{}, regexpstr string) (string, error) {
+	re := regexp.MustCompile(regexpstr)
+
+	match := re.FindString(template)
+	if "" == match {
+		return "", errors.New("No match")
+	}
+
+	err := xml.Unmarshal([]byte(match), node)
+	if err != nil {
+		return "", err
+	}
+
+	return match, nil
 }

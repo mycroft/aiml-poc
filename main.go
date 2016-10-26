@@ -10,6 +10,7 @@ import (
 
 type Context struct {
 	Memory      map[string]string
+	Bot         map[string]string
 	Topic       string
 	aimlRoot    *AIMLRoot
 	LastRecv    string
@@ -17,10 +18,20 @@ type Context struct {
 	ThatMatches []string
 }
 
-func main() {
-	var err error
+func InitContext() Context {
 	var context Context
 	context.Memory = make(map[string]string)
+	context.Bot = make(map[string]string)
+
+	context.Bot["name"] = "StupidBot"
+
+	return context
+}
+
+func main() {
+	var err error
+
+	context := InitContext()
 
 	context.aimlRoot, err = Parse("sample/alice.aiml")
 	if err != nil {
