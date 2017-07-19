@@ -17,6 +17,7 @@ Supports:
 - think
 - condition
 - srai
+- bot
 
 Links
 -----
